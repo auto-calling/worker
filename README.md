@@ -27,6 +27,9 @@ docker build .
 Update ENV ```docker-compose.yml```
 
 ```
+docker-compose up -d mongo
+python3 create_session.py
+python3 create_account.py
 docker-compose up -d
 ```
 
