@@ -1,4 +1,4 @@
-- [Atuo-calling-worker](#atuo-calling-worker)
+- [Auto-calling-worker](#atuo-calling-worker)
   - [Feature overview](#feature-overview)
   - [Building](#building)
   - [Running](#running)
@@ -6,7 +6,7 @@
   - [Format message queue kafka](#format-message-queue-kafka)
   - [How to start](#how-to-start)
 
-# Atuo-calling-worker
+# Auto-calling-worker
 
 ## Feature overview
 
