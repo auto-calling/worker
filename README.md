@@ -1,4 +1,4 @@
-- [Auto-calling-worker](#atuo-calling-worker)
+- [Auto-calling-worker](#auto-calling-worker)
   - [Feature overview](#feature-overview)
   - [Building](#building)
   - [Running](#running)
@@ -27,9 +27,6 @@ docker build .
 Update ENV ```docker-compose.yml```
 
 ```
-docker-compose up -d mongo
-python3 create_session.py
-python3 create_account.py
 docker-compose up -d
 ```
 
@@ -64,14 +61,14 @@ docker-compose up -d
   - The easiest way to install and upgrade Pyrogram to its latest stable version is by using pip:
     ```$ pip3 install -U pyrogram```
   - Get your own Telegram API key from <https://my.telegram.org/apps>
-    - Save ```api_id```, ```api_hash``` to collection ```session``` in MongoDB
-    - Update data to collection ```social_account``` in MongoDB
   - Get Telegram session manual:
     - Step 1: Update ```api_id```, ```api_hash```, ```phone_number``` to ```create_session.py```
     - Step 2: Update ```owner_id```, ```full_name```, ```telegram_id``` to ```create_session.py```
-    - Step 3: Run ```python3 create_session.py```
-    - Step 4: Run ```python3 create_account.py```
-    - Step 5: Enter phone number
-    - Step 6: Enter OTP
-    - Step 7: Update the session string to collection ```session``` in MongoDB
+    - Step 3: Start MongoDB ```docker-compose up -d mongo```
+    - Step 4: Run ```python3 create_session.py```
+    - Step 5: Run ```python3 create_account.py```
+    - Step 6: Enter phone number
+    - Step 7: Enter OTP
+    - Step 8: Update the session string to collection ```session``` in MongoDB
+    - Step 9: Start worker service ```docker-compose up -d```
   - Up docker-compose after MongoDB, Kafka, auto-calling-gateway up
