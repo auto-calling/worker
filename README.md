@@ -45,7 +45,6 @@ docker-compose up -d
     "_id": "60a3f9449501d60008813aaa",
     "host": "192.168.199.199",
     "owner": "Admin",
-    "service": "Nginx",
     "state": "CRITICAL",
     "status": "FIRING",
     "msg": "Port 8080 down",
