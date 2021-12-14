@@ -12,5 +12,4 @@ pymongo==3.11.4
 asyncio==3.4.3
 minio==7.0.3
 pytz==2021.1
-sentry_sdk
 tgcrypto==1.2.2
