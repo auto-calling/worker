@@ -49,6 +49,7 @@ docker-compose up -d
     "status": "FIRING",
     "msg": "Port 8080 down",
     "action": "PENDING",
+    "status": "Firing",
     "created": "2021-12-12T12:12:12.409Z",
     "makecall":"true"
 }
@@ -60,14 +61,29 @@ docker-compose up -d
   - The easiest way to install and upgrade Pyrogram to its latest stable version is by using pip:
     ```$ pip3 install -U pyrogram```
   - Get your own Telegram API key from <https://my.telegram.org/apps>
+  - Make sure MongoDB, Kafka, auto-calling-gateway was up
   - Get Telegram session manual:
     - Step 1: Update ```api_id```, ```api_hash```, ```phone_number``` to ```create_session.py```
     - Step 2: Update ```owner_id```, ```full_name```, ```telegram_id``` to ```create_session.py```
-    - Step 3: Start MongoDB ```docker-compose up -d mongo```
-    - Step 4: Run ```python3 create_session.py```
-    - Step 5: Run ```python3 create_account.py```
+    - Step 4: Run ```python3 create_account.py```
+    - Step 5: Run ```python3 create_session.py```
     - Step 6: Enter phone number
     - Step 7: Enter OTP
     - Step 8: Update the session string to collection ```session``` in MongoDB
     - Step 9: Start worker service ```docker-compose up -d```
-  - Up docker-compose after MongoDB, Kafka, auto-calling-gateway up
+    - Step 10: Send request to: "http://127.0.0.1/api/v1/make/event"
+      ```
+      curl --location --request POST 'https://auto-calling.ghtklab.com/api/v1/make/event' \
+      --header 'Authorization: Bearer change_me' \
+      --header 'Content-Type: application/json' \
+      --data-raw '{
+          "host": "192.168.199.199",
+          "owner": "Admin",
+          "state": "CRITICAL",
+          "msg":"Port 8080 down",
+          "created": "2021-05-28 00:00:00",
+          "service": "Test",
+          "status": "Firing",
+          "makecall": "True"
+      }'
+      ```
