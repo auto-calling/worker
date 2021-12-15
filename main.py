@@ -319,13 +319,7 @@ consumer = KafkaConsumer(conf.KAFKA_TOPIC_ALERT,
                          bootstrap_servers=conf.KAFKA_SERVER,
                          group_id=conf.KAFKA_GROUP_CONSUMER,
                          enable_auto_commit=False,
-                         session_timeout_ms=int(conf.SESSION_TIMEOUT_MS),
-                         max_poll_records=int(conf.MAX_POLL_RECORDS),
-                         heartbeat_interval_ms=int(conf.HEARTBEAT_INTERVAL_MS),
-                         request_timeout_ms=int(conf.REQUEST_TIMEOUT_MS)
-                         # max_poll_interval_ms=conf.MAX_POLL_INTERVAL_MS,
-                         # api_version=(0, 10, 1),
-                         # value_deserializer=lambda x: x
+                         max_poll_records=int(conf.MAX_POLL_RECORDS)
                          )
 
 if __name__ == '__main__':
