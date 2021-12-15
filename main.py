@@ -91,8 +91,8 @@ def get_id_tele(owner_name):
             auto_calling_db = client_db[conf.MONGODB_DB]
             social_account_col = auto_calling_db["social_account"]
             owner_id = owner_name.split("-")[0].lower()
-            tele_number_query = {'owner_id': owner_id}
-            owner_tele_id = social_account_col.find_one(tele_number_query)[
+            tele_query = {'owner_id': owner_id}
+            owner_tele_id = social_account_col.find_one(tele_query)[
                 'telegram_id']
             logging.debug("GET ID TELEGRAM DONE: ".format(owner_tele_id))
             return owner_tele_id
@@ -114,8 +114,8 @@ def get_owner_fullname(owner_name):
             auto_calling_db = client_db[conf.MONGODB_DB]
             social_account_col = auto_calling_db["social_account"]
             owner_id = owner_name.split("-")[0].lower()
-            tele_number_query = {'id': owner_id}
-            owner_full_name = social_account_col.find_one(tele_number_query)[
+            tele_query = {'owner_id': owner_id}
+            owner_full_name = social_account_col.find_one(tele_query)[
                 'name']
             if owner_full_name is None:
                 owner_full_name = "nonuser"
@@ -134,7 +134,7 @@ def get_owner_fullname(owner_name):
 #  Create new sound:
 def create_sound(type, sound):
     try:
-        print("CREATE SOUND IN LOCAL", sound)
+        logging.info("CREATE SOUND IN LOCAL{}".format(sound))
         if type == "host":
             os.system(PATH_SOUND + "create_host_sound.sh " +
                       "{}".format(sound) + " > /dev/null 2>&1")
