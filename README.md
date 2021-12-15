@@ -4,6 +4,7 @@
   - [Running](#running)
   - [Event Call](#event-call)
   - [Format message queue kafka](#format-message-queue-kafka)
+  - [Requirements](#requirements)
   - [How to start](#how-to-start)
 
 # Auto-calling-worker
@@ -54,6 +55,11 @@ docker-compose up -d
     "makecall":"true"
 }
 ```
+
+## Requirements
+  - Python 3.5 or higher
+  - PytgVoIP (listed as dependency)
+  - Pyrogram (listed as dependency)
 
 ## How to start
 
