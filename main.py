@@ -37,7 +37,7 @@ uri = conf.MONGODB_URI
 number_workers = 1
 cwd = os.getcwd()
 PATH_SOUND = cwd + "/sounds/"
-tzInfo = pytz.timezone(conf.TZ)
+tzInfo = pytz.timezone(conf.TIME_ZONE)
 
 
 # Update sound to DB
