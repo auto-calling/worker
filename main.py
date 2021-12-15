@@ -245,8 +245,7 @@ def make_call_telegram(msg_name, list_owner_name, alert_host,
             global time_call
             time_call = 0
             in_call = True
-            logging.info(""" Call to user: {}, WITH TELE_ID:  {}
-                        """.format(list_owner_name, user_telegram))
+            logging.info(""" Call to user: {}, WITH TELE_ID:  {}""".format(list_owner_name, user_telegram))
             call = await voip_service.start_call(user_telegram)
             call.play(PATH_SOUND + 'default/xinchao.raw')
             call.play_on_hold([PATH_SOUND + "host/" +

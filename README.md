@@ -66,7 +66,7 @@ docker-compose up -d
 - Install Pyrogram
   - The easiest way to install and upgrade Pyrogram to its latest stable version is by using pip:
     ```$ pip3 install -r requirements-script.txt```
-  - Get your own Telegram API key from <https://my.telegram.org/apps>
+  - Get your own Telegram API key (api_id, api_hash) from <https://my.telegram.org/apps>
   - Make sure MongoDB, Kafka, auto-calling-gateway was up
   - Get Telegram session manual:
     - Step 1: Update ```api_id```, ```api_hash```, ```phone_number``` to ```create_session.py```
