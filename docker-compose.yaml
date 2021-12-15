@@ -5,21 +5,21 @@ services:
     container_name: auto-calling-worker
     restart: always
     environment:
-      - GROUP_ID_KAFKA=auto-calling
-      - HEARTBEAT_INTERVAL_MS=10000
-      - KAFKA_GROUP_CONSUMER=auto-calling
-      - KAFKA_SERVER=kafka:9092
-      - KAFKA_TOPIC_ALERT=auto-calling
-      - MAX_POLL_RECORDS=1
-      - MODE=INFO
-      - MONGODB_DB=auto-calling
-      - MONGODB_DB_COL=logging
-      - MONGODB_DB_SOUND_COL=sound
-      - MONGODB_URI=mongodb://root:example@mongo:27017/?authSource=auto-calling&authMechanism=SCRAM-SHA-1
-      - REQUEST_TIMEOUT_MS=305000
-      - SESSION_TIMEOUT_MS=120000
-      - TIME_CALL=15
-      - TIME_ZONE=Asia/Bangkok
+      GROUP_ID_KAFKA: auto-calling
+      HEARTBEAT_INTERVAL_MS: 10000
+      KAFKA_GROUP_CONSUMER: auto-calling
+      KAFKA_SERVER: "kafka:9092"
+      KAFKA_TOPIC_ALERT: auto-calling
+      MAX_POLL_RECORDS: 1
+      MODE: INFO
+      MONGODB_DB: uto-calling
+      MONGODB_DB_COL: logging
+      MONGODB_DB_SOUND_COL: sound
+      MONGODB_URI: "mongodb://root:example@mongo:27017/?authSource=auto-calling&authMechanism=SCRAM-SHA-1"
+      REQUEST_TIMEOUT_MS: 305000
+      SESSION_TIMEOUT_MS: 120000
+      TIME_CALL: 15
+      TIME_ZONE: Asia/Bangkok
     volumes:
-        - ./sound:/auto_call/sound
+      - ./sounds:/auto_call/sounds
     network_mode: host

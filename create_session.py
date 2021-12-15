@@ -33,7 +33,7 @@ with Client(
         print("======> Session was created with name:", name_session, " at time: ", created_time_session, "\n")
     else:
         session_col.insert_one(session_query)
-        status_session_value = {"$set": {"status": 1, "session_name": userbot_name,"api_id": api_id, "api_hash":api_hash , "created": datetime.now()}}
+        status_session_value = {"$set": {"status": 1, "session_name": userbot_name,"api_id": api_id, "api_hash":api_hash, "phone_number": phone_number, "created": datetime.now()}}
         session_col.update_one(session_query, status_session_value)
         print("\nGenerating String DONE !!!\n")
         print("Session is added to DB")
