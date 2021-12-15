@@ -80,16 +80,16 @@ docker-compose up -d
     - Step 10: Send request to: "http://127.0.0.1/api/v1/make/event"
       ```
       curl --location --request POST 'http://127.0.0.1/api/v1/make/event' \
-      --header 'Authorization: Bearer change_me' \
-      --header 'Content-Type: application/json' \
-      --data-raw '{
-          "host": "192.168.199.199",
-          "owner": "Admin",
+      --header 'Authorization: Bearer change_me'                          \
+      --header 'Content-Type: application/json' --data-raw '{
+          "host": "Test",
+          "owner": "admin",
           "state": "CRITICAL",
           "msg":"Port 8080 down",
-          "created": "2021-05-28 00:00:00",
+          "created":"2021-12-12 12:12:12",
           "service": "Test",
           "status": "Firing",
+          "action": "PENDING",
           "makecall": "True"
       }'
       ```
