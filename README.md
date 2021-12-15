@@ -49,6 +49,7 @@ docker-compose up -d
     "state": "CRITICAL",
     "status": "FIRING",
     "msg": "Port 8080 down",
+    "service": "Test",
     "action": "PENDING",
     "status": "Firing",
     "created": "2021-12-12T12:12:12.409Z",
@@ -82,7 +83,7 @@ docker-compose up -d
       curl --location --request POST 'http://127.0.0.1/api/v1/make/event' \
       --header 'Authorization: Bearer change_me'                          \
       --header 'Content-Type: application/json' --data-raw '{
-          "host": "Test",
+          "host": "192.168.199.199",
           "owner": "admin",
           "state": "CRITICAL",
           "msg":"Port 8080 down",
