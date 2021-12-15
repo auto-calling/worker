@@ -15,7 +15,7 @@ services:
       MONGODB_DB: uto-calling
       MONGODB_DB_COL: logging
       MONGODB_DB_SOUND_COL: sound
-      MONGODB_URI: "mongodb://root:example@localhost:27017/?authSource=auto-calling&authMechanism=SCRAM-SHA-1"
+      MONGODB_URI: "mongodb://root:example@localhost:27017/?authMechanism=SCRAM-SHA-1"
       REQUEST_TIMEOUT_MS: 305000
       SESSION_TIMEOUT_MS: 120000
       TIME_CALL: 15
