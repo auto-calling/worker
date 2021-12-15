@@ -11,7 +11,7 @@ services:
       KAFKA_TOPIC_ALERT: auto-calling
       MAX_POLL_RECORDS: 1
       MODE: INFO
-      MONGODB_DB: uto-calling
+      MONGODB_DB: auto-calling
       MONGODB_DB_COL: logging
       MONGODB_DB_SOUND_COL: sound
       MONGODB_URI: "mongodb://root:example@localhost:27017/?authMechanism=SCRAM-SHA-1"
