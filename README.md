@@ -79,7 +79,7 @@ docker-compose up -d
     - Step 9: Start worker service ```docker-compose up -d```
     - Step 10: Send request to: "http://127.0.0.1/api/v1/make/event"
       ```
-      curl --location --request POST 'https://auto-calling.ghtklab.com/api/v1/make/event' \
+      curl --location --request POST 'http://127.0.0.1/api/v1/make/event' \
       --header 'Authorization: Bearer change_me' \
       --header 'Content-Type: application/json' \
       --data-raw '{
