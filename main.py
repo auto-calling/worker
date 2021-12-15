@@ -57,6 +57,7 @@ def update_sound(type, sound):
                 logging.debug("SOUND IN DB")
                 find_sound = find(type, sound)
                 if find_sound is not True:
+                    logging.debug("SOUND IN DB BUT NOT IN LOCAL")
                     create_sound(type, sound)
     except Exception as exc:
         logging.getLogger().exception(
@@ -97,7 +98,6 @@ def get_id_tele(owner_name):
             logging.debug("GET ID TELEGRAM DONE: ".format(owner_tele_id))
             return owner_tele_id
     except TypeError as exc:
-
         logging.info("USER: {} NOT FOUND TELEGRAM ID".format(owner_name))
         owner_tele_id = "nonuser"
         return owner_tele_id
@@ -134,7 +134,7 @@ def get_owner_fullname(owner_name):
 #  Create new sound:
 def create_sound(type, sound):
     try:
-        logging.info("CREATE SOUND IN LOCAL{}".format(sound))
+        logging.debug("CREATE SOUND IN LOCAL {}".format(sound))
         if type == "host":
             os.system(PATH_SOUND + "create_host_sound.sh " +
                       "{}".format(sound) + " > /dev/null 2>&1")
@@ -194,7 +194,6 @@ def get_session_string():
                 logging.info("Call with session: {}".format(session_name))
                 return session_string, api_id, api_hash
             elif i < int(conf.TIME_CALL):
-                logging.debug("RETRY SESSION")
                 i += 1
                 t.sleep(1)
                 continue
@@ -246,8 +245,7 @@ def make_call_telegram(msg_name, list_owner_name, alert_host,
             global time_call
             time_call = 0
             in_call = True
-            logging.info(""" Call to user: {},
-                        WITH TELE_ID:  {}
+            logging.info(""" Call to user: {}, WITH TELE_ID:  {}
                         """.format(list_owner_name, user_telegram))
             call = await voip_service.start_call(user_telegram)
             call.play(PATH_SOUND + 'default/xinchao.raw')
@@ -292,7 +290,6 @@ def make_call_telegram(msg_name, list_owner_name, alert_host,
         logging.info("STOP CLIENT")
     except SessionLimit as exc:
         logging.info("SessionLimit")
-        logging.info("SEND RETRY MSG")
         logging.getLogger().exception(
             "Error when calling to {}: {}".format(list_owner_name, exc)
         )
@@ -301,13 +298,11 @@ def make_call_telegram(msg_name, list_owner_name, alert_host,
         # t.sleep(e.x)
         msg = "Flood wait for: {} seconds".format(e.x)
         logging.info("FloodWait")
-        logging.info("SEND RETRY MSG")
         logging.getLogger().exception(
             "Flood wait for: {} seconds".format(e.x)
         )
     except Exception as exc:
         end_session(call_session_string)
-        logging.info("SEND RETRY MSG")
         logging.getLogger().exception(
             "Error when calling to {}: {}".format(list_owner_name, exc)
         )
