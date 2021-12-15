@@ -91,7 +91,7 @@ def get_id_tele(owner_name):
             auto_calling_db = client_db[conf.MONGODB_DB]
             social_account_col = auto_calling_db["social_account"]
             owner_id = owner_name.split("-")[0].lower()
-            tele_number_query = {'id': owner_id}
+            tele_number_query = {'owner_id': owner_id}
             owner_tele_id = social_account_col.find_one(tele_number_query)[
                 'telegram_id']
             logging.debug("GET ID TELEGRAM DONE: ".format(owner_tele_id))
