@@ -11,5 +11,6 @@ RUN pip3 install --upgrade pip cmake
 RUN pip3 install -r requirements.txt
 RUN pip3 install pytgvoip-pyrogram
 RUN chmod +x /run.sh
+RUN chmod +x /auto_call/sounds/*.sh
 ENTRYPOINT [ "/run.sh" ]
 
