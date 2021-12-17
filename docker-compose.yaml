@@ -17,6 +17,6 @@ services:
       MONGODB_URI: "mongodb://root:example@localhost:27017/?authMechanism=SCRAM-SHA-1"
       TIME_CALL: 15
       TIME_ZONE: Asia/Bangkok
-    volumes:
-      - ./sounds:/auto_call/sounds
+    # volumes:
+    #   - ./sounds:/auto_call/sounds
     network_mode: host
