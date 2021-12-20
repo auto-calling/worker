@@ -255,13 +255,13 @@ def make_call_telegram(msg_name, list_owner_name, alert_host,
             call = await voip_service.start_call(user_telegram)
             call.play(PATH_SOUND + 'default/xinchao.raw')
             call.play_on_hold([PATH_SOUND + "host/" +
-                               alert_host +
+                               str(alert_host) +
                                ".raw", PATH_SOUND + "owner/" +
                                owner_id +
                                ".raw", PATH_SOUND + "state/state-" +
                                alert_state +
                                ".raw", PATH_SOUND + "msg/" +
-                               msg_name + ".raw"])
+                               str(msg_name) + ".raw"])
 
             @call.on_call_state_changed
             def state_changed(call, state):
