@@ -30,6 +30,7 @@ import asyncio
 import pytz
 from datetime import datetime, date, timedelta
 import requests
+import hashlib
 
 from conf import configuration as conf
 
@@ -40,25 +41,30 @@ PATH_SOUND = cwd + "/sounds/"
 tzInfo = pytz.timezone(conf.TIME_ZONE)
 
 
+def create_hash(msg):
+    msg_hash = int(hashlib.sha1(msg.encode("utf-8")).hexdigest(), 16) % (10 ** 8)
+    return msg_hash
+
+
 # Update sound to DB
-def update_sound(type, sound):
+def update_sound(type, sound, sound_hash):
     try:
         logging.debug("CHECK SOUND:".format(sound))
         with MongoClient(uri) as client_db:
             sound_db = client_db[conf.MONGODB_DB]
             sound_db_col = sound_db[conf.MONGODB_DB_SOUND_COL]
-            query_sound = {'type': type, 'sound': sound}
+            query_sound = {'type': type, 'sound': sound_hash}
             if sound_db_col.find_one(query_sound) is None:
                 logging.debug("UPDATE SOUND TO DB")
-                create_sound(type, sound)
+                create_sound(type, sound, sound_hash)
                 sound_db_col.insert_one(query_sound)
                 logging.debug("UPDATE SOUND TO DB DONE")
             else:
                 logging.debug("SOUND IN DB")
-                find_sound = find(type, sound)
+                find_sound = find(type, sound_hash)
                 if find_sound is not True:
                     logging.debug("SOUND IN DB BUT NOT IN LOCAL")
-                    create_sound(type, sound)
+                    create_sound(type, sound_hash)
     except Exception as exc:
         logging.getLogger().exception(
             "Error occurred when UPDATE SOUND: {}".format(exc)
@@ -70,7 +76,7 @@ def find(type, sound):
     try:
         logging.debug("FIND SOUND IN LOCAL", sound)
         path = PATH_SOUND + type + "/"
-        name = sound + ".raw"
+        name = str(sound) + ".raw"
         for root, dirs, files in os.walk(path):
             if name in files:
                 logging.debug("FILE EXIST IN LOCAL")
@@ -132,20 +138,20 @@ def get_owner_fullname(owner_name):
 
 
 #  Create new sound:
-def create_sound(type, sound):
+def create_sound(type, sound, sound_hash):
     try:
         logging.debug("CREATE SOUND IN LOCAL {}".format(sound))
         if type == "host":
             os.system(PATH_SOUND + "create_host_sound.sh " +
-                      "{}".format(sound) + " > /dev/null 2>&1")
+                      "{} {}".format(str(sound), sound_hash) + " > /dev/null 2>&1")
             logging.debug("CREATE HOST SOUND DONE")
         elif type == "owner":
             os.system(PATH_SOUND + "create_owner_sound.sh " +
-                      "{}".format(sound) + " > /dev/null 2>&1")
+                      "{} {}".format(str(sound), sound_hash) + " > /dev/null 2>&1")
             logging.debug("CREATE OWNER SOUND DONE")
         elif type == "msg":
             os.system(PATH_SOUND + "create_msg_sound.sh " +
-                      "{}".format(sound) + " > /dev/null 2>&1")
+                      "{} {}".format(str(sound), sound_hash) + " > /dev/null 2>&1")
             logging.debug("CREATE MSG SOUND DONE")
     except Exception as exc:
         logging.getLogger().exception(
@@ -227,7 +233,7 @@ def end_session(call_session_string_end):
 
 #  Function call:
 def make_call_telegram(msg_name, list_owner_name, alert_host,
-                       alert_state, alert_id_msg, user_telegram):
+                       alert_state, alert_id_msg, user_telegram, owner_id):
     try:
         # Config Call
         # Config Bitrate
@@ -245,13 +251,13 @@ def make_call_telegram(msg_name, list_owner_name, alert_host,
             global time_call
             time_call = 0
             in_call = True
-            logging.info(""" Call to user: {}, WITH TELE_ID:  {}""".format(list_owner_name, user_telegram))
+            logging.info(""" Call to user: {}, WITH TELE_ID:  {}""".format(owner_id, user_telegram))
             call = await voip_service.start_call(user_telegram)
             call.play(PATH_SOUND + 'default/xinchao.raw')
             call.play_on_hold([PATH_SOUND + "host/" +
                                alert_host +
                                ".raw", PATH_SOUND + "owner/" +
-                               list_owner_name +
+                               owner_id +
                                ".raw", PATH_SOUND + "state/state-" +
                                alert_state +
                                ".raw", PATH_SOUND + "msg/" +
@@ -341,7 +347,8 @@ if __name__ == '__main__':
             makecall = received_msg['makecall'].lower()
 
             # Check alert exist
-            update_sound("msg", alert_msg)
+            alert_msg_hash = create_hash(alert_msg)
+            update_sound("msg", alert_msg, alert_msg_hash)
 
             # Get telegram id
             list_owner_tele_id = []
@@ -355,7 +362,7 @@ if __name__ == '__main__':
                 user = user_owner.strip()
                 list_owner_tele_id.append(get_id_tele(user))
                 owner_fullname = get_owner_fullname(user).replace(" ", "_")
-                update_sound("owner", owner_fullname)
+                update_sound("owner", owner_fullname, user)
                 list_owner_full_name.append(owner_fullname)
 
             # Remove duplicate user
@@ -373,14 +380,15 @@ if __name__ == '__main__':
                 list_owner_full_name))
 
             # Check host exist
-            update_sound("host", host)
+            host_hash = create_hash(host)
+            update_sound("host", host, host_hash)
 
             # Filter and start call
             if status == 'firing' and makecall == 'true':
                 for i in range(len(list_owner_tele_id)):
-                    make_call_telegram(alert_msg, list_owner_full_name[i],
-                                       host, state, alert_id,
-                                       list_owner_tele_id[i])
+                    make_call_telegram(alert_msg_hash, list_owner_full_name[i],
+                                       host_hash, state, alert_id,
+                                       list_owner_tele_id[i], list_all_owner[i].strip())
                 continue
             else:
                 continue
